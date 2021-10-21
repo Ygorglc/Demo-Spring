@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("dev")
+
 @TipoDoNotificador(NivelUrgencia.NORMAL)
 @Component
 public class NotificadorEmailMock implements Notificador{

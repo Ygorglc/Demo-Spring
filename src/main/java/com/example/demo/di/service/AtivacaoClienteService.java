@@ -7,32 +7,22 @@ import com.example.demo.di.notificacao.Notificador;
 import com.example.demo.di.notificacao.TipoDoNotificador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-//@Component
+@Component
 public class AtivacaoClienteService {
 
-    @TipoDoNotificador(NivelUrgencia.NORMAL)
-    @Autowired
-    private Notificador notificador;
+   @Autowired
+   private ApplicationEventPublisher eventPublisher;
 
- //   @PostConstruct
-    public void init(){
-        System.out.println("Iniciado");
-    }
+   public void ativar(Cliente cliente){
+       cliente.ativar();
 
- //   @PreDestroy
-    public void destroy(){
-        System.out.println("Destruido");
-    }
-
-    public void ativar(Cliente cliente) {
-        cliente.ativar();
-
-        notificador.notificar(cliente, "Seu cadastro no sistema está ativo!");
-    }
+       eventPublisher.publishEvent(new ClienteAtivadoEvent(cliente));
+   }
 }
